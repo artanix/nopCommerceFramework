@@ -1,6 +1,5 @@
 import { Page, Locator } from "@playwright/test";
 
-// pages/base.page.ts
 export class BasePage {
   readonly page: Page;
 
@@ -17,6 +16,9 @@ export class BasePage {
   // Header - Logged Out
   readonly registerLink: Locator;
   readonly loginLink: Locator;
+
+  // Navigation - Categories Breadcrumbs
+  readonly breadcrumb: Locator;
 
   // Footer
   readonly footerLinks: Locator;
@@ -40,9 +42,20 @@ export class BasePage {
     this.registerLink = page.getByRole("link", { name: "Register" });
     this.loginLink = page.getByRole("link", { name: "Log in" });
 
+    // Navigation - Categories Breadcrumbs
+    this.breadcrumb = page.locator(".breadcrumb");
+
     // Footer
     this.footerLinks = page
       .getByRole("navigation")
       .filter({ hasText: "Information Sitemap Shipping" });
+  }
+
+  getBreadcrumbLink(name: string) {
+    return this.breadcrumb.getByRole("link", { name });
+  }
+
+  getCategoryLink(name: string) {
+    return this.page.getByRole("link", { name, exact: true });
   }
 }

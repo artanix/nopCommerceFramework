@@ -46,7 +46,6 @@ test.describe("Registration - Positive Flow", () => {
         companyName: faker.company.name(),
         gender: Math.random() > 0.5 ? "Male" : "Female",
         newsletter: Math.random() > 0.5,
-        confirmPassword: testUser.password,
       },
     );
     await expect(registerPage.registrationCompleteMsg).toBeVisible();
@@ -66,7 +65,6 @@ test.describe("Registration - Negative Flow", () => {
   });
   test("Attempt registration without completing mandatory fields.", async ({
     registerPage,
-    page,
   }) => {
     await registerPage.goto();
     await registerPage.registerBtn.click();
@@ -127,7 +125,6 @@ test.describe("Registration - Negative Flow", () => {
 
   test("Attempt registration with a password mismatch", async ({
     registerPage,
-    page,
   }) => {
     await registerPage.goto();
     await registerPage.register(
