@@ -1,6 +1,7 @@
 import { Page, Locator } from "@playwright/test";
+import { BasePage } from "./base.page";
 
-export class RegisterPage {
+export class RegisterPage extends BasePage {
   readonly page: Page;
 
   // Personal Details
@@ -30,11 +31,18 @@ export class RegisterPage {
   readonly firstNameRequiredMsg: Locator;
   readonly lastNameRequiredMsg: Locator;
   readonly emailRequiredMsg: Locator;
+  readonly duplicateEmailMsg: Locator;
+  readonly invalidEmailMsg: Locator;
   readonly passwordRequiredMsg: Locator;
+  readonly invalidPasswordMsg: Locator;
+  readonly passwordMismatchMsg: Locator;
+
+  // Post register page
   readonly registrationCompleteMsg: Locator;
   readonly registrationContinueBtn: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
 
     // Personal Details
@@ -77,7 +85,11 @@ export class RegisterPage {
     this.firstNameRequiredMsg = page.getByText("First name is required.");
     this.lastNameRequiredMsg = page.getByText("Last name is required.");
     this.emailRequiredMsg = page.getByText("Email is required.");
+    this.duplicateEmailMsg = page.getByText("The specified email already");
+    this.invalidEmailMsg = page.getByText("Please enter a valid email");
     this.passwordRequiredMsg = page.getByText("Password is required.");
+    this.invalidPasswordMsg = page.getByText("Password must meet the");
+    this.passwordMismatchMsg = page.getByText("The password and confirmation");
 
     // Post register page http://localhost:8085/registerresult/1?returnUrl=/
     this.registrationCompleteMsg = page.getByText(
@@ -89,6 +101,7 @@ export class RegisterPage {
   // goto URL function
   async goto() {
     await this.page.goto("/register");
+    await this.page.getByRole("button", { name: "OK", exact: true }).click();
   }
 
   // register with Mandatory Fields
@@ -97,12 +110,29 @@ export class RegisterPage {
     lastName: string,
     email: string,
     password: string,
+    options?: {
+      gender?: "Male" | "Female";
+      companyName?: string;
+      vatNumber?: string;
+      newsletter?: boolean;
+      confirmPassword?: string;
+    },
   ) {
     await this.firstNameField.fill(firstName);
     await this.lastNameField.fill(lastName);
     await this.emailField.fill(email);
     await this.passwordField.fill(password);
-    await this.confirmPasswordField.fill(password);
+
+    // add Optional Fields
+    await this.confirmPasswordField.fill(options?.confirmPassword ?? password);
+
+    if (options?.gender)
+      await this.page.getByLabel(options.gender, { exact: true }).check();
+    if (options?.companyName)
+      await this.companyNameField.fill(options.companyName);
+    if (options?.vatNumber) await this.vatNumberField.fill(options.vatNumber);
+    if (options?.newsletter === false) await this.isActiveCheckbox.uncheck();
+
     await this.registerBtn.click();
   }
 }
