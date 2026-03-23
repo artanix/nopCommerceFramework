@@ -6,10 +6,13 @@ This handoff carries forward lessons, patterns, and preferences from the Conduit
 
 ## Target Application
 
-**nopCommerce Demo Store:** https://demo.nopcommerce.com/
-- Full ecommerce platform (ASP.NET-based)
-- Resets to original state every hour — no persistent test data (reinforces proper test isolation)
-- Admin panel available at https://admin-demo.nopcommerce.com/
+**nopCommerce Local Instance:** http://localhost:8085
+- Full ecommerce platform (ASP.NET-based), running locally via Docker
+- Docker compose file at `E:/Automation/nopCommerce/postgresql-docker-compose.yml` (port 8085:80, PostgreSQL backend)
+- Start with: `docker-compose -f postgresql-docker-compose.yml up` from the nopCommerce repo
+- No Cloudflare bot detection, no hourly resets, full control over test data
+- Admin panel at http://localhost:8085/Admin (same domain, `/Admin` path)
+- Admin credentials: admin@yourStore.com / (set during install)
 - Features: user registration/login, product search, filtering by category/color/price, sorting, product comparison, wishlist, cart, multi-step checkout, currency switching, contact forms, product tags, user account management, newsletter subscription, product reviews
 
 ## Proven Architecture (Replicate This)
@@ -120,9 +123,9 @@ export { expect } from "@playwright/test";
 ## nopCommerce-Specific Considerations
 
 ### Auth Strategy
-- nopCommerce uses cookie-based auth (unlike Conduit's JWT localStorage). Investigate whether `storageState` captures cookies correctly — it should, since Playwright's storageState includes cookies by default
-- Check if nopCommerce has a public API for creating users/data, or if setup must be UI-based
-- Admin panel login: admin@yourStore.com / admin (default demo credentials)
+- nopCommerce uses cookie-based auth (unlike Conduit's JWT localStorage). `storageState` captures cookies by default — this should work
+- No public API — setup must be UI-based
+- Admin panel login: admin@yourStore.com / (password set during Docker install)
 
 ### Suggested Test Priority (Build Incrementally)
 1. **Register + Login** — establish auth setup first

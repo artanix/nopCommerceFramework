@@ -33,6 +33,10 @@ jobs:
           ADMIN_URL: ${{ secrets.ADMIN_URL }}
           ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          TEST_USER_FIRST_NAME: ${{ secrets.TEST_USER_FIRST_NAME }}
+          TEST_USER_LAST_NAME: ${{ secrets.TEST_USER_LAST_NAME }}
+          TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
