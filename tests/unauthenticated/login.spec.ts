@@ -32,7 +32,7 @@ test.describe("Login - Negative Flow", () => {
 
   test("Login with incorrect password", async ({ loginPage, page }) => {
     await page.goto("/login");
-    await loginPage.emailField.fill(`${process.env.TEST_USER_EMAIL}@test.com`);
+    await loginPage.emailField.fill(`test@test.com`);
     await loginPage.passwordField.fill(`${process.env.TEST_USER_PASSWORD}123`);
     await loginPage.loginBtn.click();
     await expect(loginPage.loginUnsuccessfulMsg).toBeVisible();

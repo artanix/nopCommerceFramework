@@ -5,6 +5,9 @@ export class ProductListPage extends BasePage {
   // Navigation - Categories Sidebar
   readonly sidebarCategories: Locator;
 
+  // Navigation - Categories Breadcrumbs
+  readonly breadcrumb: Locator;
+
   // Product List - Sort by + View
   readonly sortByDropdown: Locator;
   readonly displayPerPageDropdown: Locator;
@@ -34,6 +37,9 @@ export class ProductListPage extends BasePage {
 
     // Navigation - Categories Sidebar
     this.sidebarCategories = page.locator(".block-category-navigation");
+
+    // Navigation - Categories Breadcrumbs
+    this.breadcrumb = page.locator(".breadcrumb");
 
     // Product List - Sort by + View
     this.sortByDropdown = page.getByLabel("Select product sort order");
@@ -122,5 +128,10 @@ export class ProductListPage extends BasePage {
   }
   get pagerCurrentPage() {
     return this.pager.locator(".current-page span");
+  }
+
+  // Navigation - Breadcrumbs
+  getBreadcrumbLink(name: string) {
+    return this.breadcrumb.getByRole("link", { name });
   }
 }

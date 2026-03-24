@@ -2,8 +2,6 @@ import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./base.page";
 
 export class RegisterPage extends BasePage {
-  readonly page: Page;
-
   // Personal Details
   readonly firstNameField: Locator;
   readonly lastNameField: Locator;
@@ -43,7 +41,6 @@ export class RegisterPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.page = page;
 
     // Personal Details
     this.firstNameField = page.getByRole("textbox", { name: "First name:" });

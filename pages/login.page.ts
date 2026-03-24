@@ -1,8 +1,7 @@
 import { Page, Locator } from "@playwright/test";
+import { BasePage } from "./base.page";
 
-export class LoginPage {
-  readonly page: Page;
-
+export class LoginPage extends BasePage {
   // Headings
   readonly welcomeHeader: Locator;
   readonly newCustomerSubheader: Locator;
@@ -28,7 +27,7 @@ export class LoginPage {
   readonly loginUnsuccessfulMsg: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
 
     // Headings
     this.welcomeHeader = page.getByRole("heading", {

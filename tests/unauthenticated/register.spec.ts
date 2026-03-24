@@ -111,7 +111,6 @@ test.describe("Registration - Negative Flow", () => {
 
   test("Attempt registration with a short password", async ({
     registerPage,
-    page,
   }) => {
     await registerPage.goto();
     await registerPage.register(
